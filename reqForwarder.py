@@ -8,12 +8,12 @@ class BurpExtender(IBurpExtender, IProxyListener):
         self._helpers = callbacks.getHelpers()
         callbacks.setExtensionName("Request Forwarder")
         callbacks.registerProxyListener(self)
-        self.hostsToDrop = ["google.com", "google.co.il" , "youtube.com", "google-analytics.com"]
+        self.hostsToForward = ["google.com", "google.co.il" , "youtube.com", "google-analytics.com"]
 
     def processProxyMessage(self, messageIsRequest, message):
         if messageIsRequest:
             messageInfo = message.getMessageInfo()
-            for hostToDrop in self.hostsToDrop:
+            for hostToDrop in self.hostsToForward:
                 currentHost = messageInfo.getHttpService().getHost()
                 if hostToDrop in currentHost:
                     # print "Request not intercepted for the url: " + str(self._helpers.analyzeRequest(messageInfo).getUrl())
